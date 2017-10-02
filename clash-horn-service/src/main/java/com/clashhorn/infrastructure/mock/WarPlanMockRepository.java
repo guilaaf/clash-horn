@@ -162,5 +162,15 @@ public class WarPlanMockRepository implements WarPlanRepository {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
 
+    @Override
+    public WarPlan findClanAccountIdAndResult(String id, int resultIdAsValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public WarPlan findClanAccountIdAndResult(String id, int resultIdAsValue1, int resultIdAsValue2) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
         
 }

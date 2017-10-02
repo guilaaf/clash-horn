@@ -14,4 +14,11 @@ public interface WarPlanRepository extends MongoRepository<WarPlan, String> {
     
     @Query("{ 'id':?0, 'clanAccountId': ?1 }")
     WarPlan findByIdAndClanAccountId(String id, String clanAccountId);
+    
+    @Query("{ 'id':?0, result: ?1 }")
+    WarPlan findClanAccountIdAndResult(String id, int resultIdAsValue);
+    
+    @Query("{ $or: [{'clanAccountId':?0, result: ?1}, {'clanAccountId':?0, result: ?2}] }")
+    WarPlan findClanAccountIdAndResult(String clanAccountId, int resultIdAsValue1, int resultIdAsValue2);
+
 }

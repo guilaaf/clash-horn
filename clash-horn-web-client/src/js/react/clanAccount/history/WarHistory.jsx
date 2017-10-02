@@ -6,7 +6,7 @@ export class WarHistory extends React.Component {
     render() {
         return (
                 <div>
-                    War Plan History
+                    Coming Soon !
                 </div>
         );
     }

@@ -100,6 +100,7 @@ public class ClashHornServiceImpl implements ClashHornService {
      */
     @Override
     public WarPlanFullDTO fetchWarPlan(String clanAccountId, String warPlanId) {
+        // TODO: Apply concurrenty control with @Version
         WarPlan warPlan;
         if (warPlanId!=null) {
             // warPlanId provided. Just get a warPlan from the repository assuring it belongs to provided clanAccountId
@@ -107,9 +108,16 @@ public class ClashHornServiceImpl implements ClashHornService {
         } else {
             // warPlanId not provided. Assumes a request for the current war
             ClanAccount clanAccount = clanAccountRepository.findOne(clanAccountId);
+            
             // Fetch current war on CoC API to verify matches and updates for a possible repository warplan
-            War war = clashOfClansService.currentWar(clanAccount.getClan().getTag());
-            warPlan = warPlanService.createOrUpdateCurrentWarPlan(createWarPlanFromCoCWar(war, clanAccountId));
+            if (clanAccount.checkFetchSpam(System.currentTimeMillis())) {
+                // Too many update requests. Fetch latest no finished war
+                warPlan = warPlanRepository.findClanAccountIdAndResult(clanAccountId, WarResult.PREPARATION.toValue(), WarResult.IN_PROGRESS.toValue());
+            } else {
+                War war = clashOfClansService.currentWar(clanAccount.getClan().getTag());
+                warPlan = warPlanService.createOrUpdateCurrentWarPlan(createWarPlanFromCoCWar(war, clanAccountId));
+            }
+            clanAccountRepository.save(clanAccount);
         }
         return converter.convert(warPlan, WarPlanFullDTO.class);
     }
