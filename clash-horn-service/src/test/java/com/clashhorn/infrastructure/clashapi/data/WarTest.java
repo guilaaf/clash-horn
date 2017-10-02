@@ -7,6 +7,7 @@ import com.clashhorn.application.clashapi.WarClan;
 import com.clashhorn.application.clashapi.War;
 import com.clashhorn.application.clashapi.WarClanMember;
 import com.clashhorn.Configuration;
+import com.clashhorn.application.clashapi.WarState;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SpringBootTest
 @Import(Configuration.class)
 public class WarTest {
-    public static final String STATE = "inWar";
+    public static final WarState STATE = WarState.IN_WAR;
     public static final int TEAM_SIZE = 15;
     public static final String CLAN_TAG = "#22PLRY2G";
     public static final String CLAN_NAME = "TJF";
