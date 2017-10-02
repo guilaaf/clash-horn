@@ -4,6 +4,9 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Image from 'react-bootstrap/lib/Image';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import Button from 'react-bootstrap/lib/Button';
+import Tooltip from 'react-bootstrap/lib/Tooltip';
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 
 
 import WarPosition from './WarPosition.jsx';
@@ -13,6 +16,10 @@ import { getWarTimeDiffAsString, isPreparation, isInProgress, isDraw, isVictory,
 import badgeExample from '../../../../img/badge-example.png';
 
 class WarBoard extends React.Component {
+    
+    refreshWar() {
+        this.props.onRefreshWar();
+    }
     
     render() {
         if (!this.props.war) {
@@ -36,6 +43,8 @@ class WarBoard extends React.Component {
         } else if (isDefeat(this.props.war)) {
             warStatusContent = (<strong className="text-danger"><Glyphicon glyph="thumbs-down" /> DEFEAT</strong>);
         };
+        
+        const tooltip = (<Tooltip id="refresh-war">Click to refresh war data from Clash of Clans server</Tooltip>);
         
         return (
             <div className="war-board">
@@ -84,9 +93,16 @@ class WarBoard extends React.Component {
                 <Row>
                     <Col md={6} mdOffset={3} sm={12} xs={12}>
                     <div className="war-status">
+                        <div className="pull-right">
+                            <OverlayTrigger overlay={tooltip}>
+                                <Button bsStyle="primary" bsSize="xsmall" onClick={this.refreshWar.bind(this)}>
+                                    <Glyphicon glyph="globe"></Glyphicon>
+                                </Button>
+                            </OverlayTrigger>
+                        </div>
                         <p>{warStatusContent}</p>
-                        <p className="text-secondary"><i className="glyphicon glyphicon-time"> </i>  {getWarTimeDiffAsString(this.props.war, currentTime)}	</p>
-                        <p className="text-secondary"><i className="glyphicon glyphicon-king"> </i>  3 attacks performed, 27 available	</p>
+                        <p className="text-secondary"><Glyphicon glyph="time"> </Glyphicon>  {getWarTimeDiffAsString(this.props.war, currentTime)}	</p>
+                        <p className="text-secondary"><Glyphicon glyph="king"> </Glyphicon>  3 attacks performed, 27 available	</p>
                     </div>
                     </Col>
                 </Row>
@@ -104,7 +120,8 @@ class WarBoard extends React.Component {
 };
 
 WarBoard.defaultProps = {
-    war: null
+    war: null,
+    onRefreshWar: () => {}
 };
 
 export default WarBoard

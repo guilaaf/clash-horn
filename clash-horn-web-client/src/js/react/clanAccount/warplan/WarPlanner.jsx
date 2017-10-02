@@ -29,6 +29,10 @@ export class WarPlanner extends React.Component {
         }
     }
     
+    refresh() {
+        this.loadWarPlan(this.props.clanAccount.id, this.props.match.params.wid, true);
+    }
+    
     render() {
         if (this.props.fetching['fetchClanAccount']) {
             return (<span><Glyphicon glyph="refresh" /> Loading clan account data ...</span>);
@@ -38,7 +42,7 @@ export class WarPlanner extends React.Component {
             return (
                 <div>
                     <CoCStatusAlert method="fetchWarPlan" denied="Request to fetch war data from Clash of Clans data service was denied. Make sure your clan's war log is public to use it on Clash Horn" />
-                    <WarBoard war={this.props.warPlan} />
+                    <WarBoard war={this.props.warPlan} onRefreshWar={this.refresh.bind(this)} />
                 </div>
             );
         }
