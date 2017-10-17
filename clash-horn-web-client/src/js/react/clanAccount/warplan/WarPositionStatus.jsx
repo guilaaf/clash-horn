@@ -32,9 +32,8 @@ class WarPositionStatus extends React.Component {
         let position = this.props.position;
         let bestAttack = bestScoredPerformedAttackAgainst(this.props.war, this.props.position);
         let bestPerformedAttackTip = "";    
-        
-    
         let bestPerformedAttackContent = null;
+        
         if (bestAttack.destructionPercentage===0) {
             bestPerformedAttackTip = "No destruction yet";
 //            bestPerformedAttackContent = (<Glyphicon glyph="asterisk" />);

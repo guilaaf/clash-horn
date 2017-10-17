@@ -133,13 +133,13 @@ export const performedMemberAttacksCountPerPosition = function(war) {
  * @returns {unresolved}
  */
 export const getFilteredAttackQueue = function(war, position) {
-    const count = performedMemberAttacksCountPerPosition(war);
+    const counts = performedMemberAttacksCountPerPosition(war);
     
     return position.attackQueue
-            // filter out attackers lready in the queue
+            // filter out plans for players that already attacked this position
             .filter( queueItem => position.performedAttacks.map(a=> a.attacker).indexOf(queueItem.attacker) < 0 )
-            // filter out atackers with 2 or more performed attacks
-            .filter( queueItem => (count[queueItem.attacker] || 0) < 2 );
+            // filter out atackers with 2 performed attacks
+            .filter( queueItem => (counts[queueItem.attacker] || 0) < 2 );
 };
 
 

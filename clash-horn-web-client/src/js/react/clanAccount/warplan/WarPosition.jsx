@@ -98,7 +98,7 @@ class WarPosition extends React.Component {
               <Modal.Footer>
                 <ButtonGroup justified>
                       <Button bsStyle="danger" href="#" onClick={this.closePlanAttackModal.bind(this)}>Cancel</Button>
-                      <Button bsStyle="info" href="#" onClick={this.planAttack.bind(this)} disabled={this.state.attackerPosition<1}>Confirm</Button>
+                      <Button bsStyle="success" href="#" onClick={this.planAttack.bind(this)} disabled={this.state.attackerPosition<1}>Confirm</Button>
                 </ButtonGroup>
               </Modal.Footer>
             </Modal>
