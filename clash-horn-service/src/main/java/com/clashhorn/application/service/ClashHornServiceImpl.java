@@ -93,7 +93,6 @@ public class ClashHornServiceImpl implements ClashHornService {
         ClanAccount clanAccount = clanAccountService.registerNewClanAccount(clanAccountId, tag);
         return converter.convert(clanAccount, ClanAccountDTO.class);
     }
-    
         
     /**
      * {@inheritDoc}
@@ -132,7 +131,6 @@ public class ClashHornServiceImpl implements ClashHornService {
         warPlanRepository.save(warPlan);
         return converter.convert(warPlan, WarPlanFullDTO.class);
     }
-    
         
     /**
      * {@inheritDoc}

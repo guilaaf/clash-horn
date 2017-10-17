@@ -115,6 +115,8 @@ public class WarPlan {
     }
 
     public void updateWithDataFrom(WarPlan currentWarPlanUpdatedData) {
+        this.startTime = currentWarPlanUpdatedData.startTime;
+        this.endTime = currentWarPlanUpdatedData.endTime;
         this.result = currentWarPlanUpdatedData.result;
         this.clanScore = currentWarPlanUpdatedData.clanScore;
         this.enemyScore = currentWarPlanUpdatedData.enemyScore;

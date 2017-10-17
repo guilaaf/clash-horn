@@ -68,6 +68,7 @@ public interface ClashHornService {
      * @return 
      */
     WarPlanFullDTO removeFromAttackQueue(String warPlanId, int enemyPosition, int memberPosition);
+    
     /**
      * Fetch service status data
      * @return 
