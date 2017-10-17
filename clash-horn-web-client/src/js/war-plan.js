@@ -159,7 +159,7 @@ export const bestScoredPerformedAttackAgainst = function(war, position) {
     return { stars: -1, destructionPercentage: 0 };
 };
 
-export const getWarTimeDiffAsString = function(war, currentTime) {
+export const getWarRemainingTime = function(war, currentTime) {
     let seconds = 0;
     let prefix = "";
     let suffix = "";
@@ -170,9 +170,7 @@ export const getWarTimeDiffAsString = function(war, currentTime) {
         seconds = parseInt((war.endTime - currentTime)/1000);
         suffix = " to end";
     } else {
-        seconds = parseInt((currentTime - war.endTime)/1000);
-        prefix = "War ended ";
-        suffix = " ago";
+        return "War ended";
     }
     
     let hours = parseInt(seconds / (60*60));
@@ -181,5 +179,14 @@ export const getWarTimeDiffAsString = function(war, currentTime) {
     hours = hours===0?"":hours + (hours > 1 ? " hours " : " hour ");
     minutes = minutes + (minutes > 1 ? " minutes" : " minute");
     return prefix + hours + minutes + suffix;
+};
+
+export const getWarAttackCount = function(war) {
+    let performedAttacks = war.positions.map(p => p.performedAttacks.length).reduce(( prevVal, elem ) => prevVal + elem);
+    let availableAttacks = (war.mapSize * 2) - performedAttacks;
+    let performed = performedAttacks + " " + (performedAttacks > 1 ? "attacks" : "attack") + " performed";
+    let available = availableAttacks + " available";
+    
+    return performed + ", " + available;
 };
 

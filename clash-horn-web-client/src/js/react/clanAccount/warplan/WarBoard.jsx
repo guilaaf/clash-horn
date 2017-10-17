@@ -11,7 +11,7 @@ import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 
 import WarPosition from './WarPosition.jsx';
 import ClanBadge from '../../ui/ClanBadge.jsx';
-import { getWarTimeDiffAsString, isPreparation, isInProgress, isDraw, isVictory, isDefeat } from '../../../war-plan'
+import { getWarRemainingTime, getWarAttackCount, isPreparation, isInProgress, isDraw, isVictory, isDefeat } from '../../../war-plan'
 
 import badgeExample from '../../../../img/badge-example.png';
 
@@ -51,7 +51,7 @@ class WarBoard extends React.Component {
                 <Row>
                     <Col md={3} mdOffset={3} sm={6} xs={6}>
                         <div className="war-board-col">
-                        <div className="clan-badge" style={{'backgroundImage':  `url('${this.props.war.clan.badge}')`}} />
+                            <div className="clan-badge" style={{'backgroundImage':  `url('${this.props.war.clan.badge}')`}} />
 
                             <div className="war-board-stars">
                                 {this.props.war.clanScore.stars}
@@ -101,8 +101,8 @@ class WarBoard extends React.Component {
                             </OverlayTrigger>
                         </div>
                         <p>{warStatusContent}</p>
-                        <p className="text-secondary"><Glyphicon glyph="time"> </Glyphicon>  {getWarTimeDiffAsString(this.props.war, currentTime)}	</p>
-                        <p className="text-secondary"><Glyphicon glyph="king"> </Glyphicon>  3 attacks performed, 27 available	</p>
+                        <p className="text-secondary"><Glyphicon glyph="time"> </Glyphicon>  {getWarRemainingTime(this.props.war, currentTime)}	</p>
+                        <p className="text-secondary"><Glyphicon glyph="king"> </Glyphicon>  {getWarAttackCount(this.props.war)} </p>
                     </div>
                     </Col>
                 </Row>
