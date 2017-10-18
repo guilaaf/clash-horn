@@ -12,7 +12,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
-import { bestScoredPerformedAttackAgainst } from '../../../war-plan';
+import { bestPerformedAttack } from '../../../war-plan';
 
 /**
  * WarPositionStatus label
@@ -24,13 +24,12 @@ class WarPositionStatus extends React.Component {
     }
     
     render() {
-        if (!this.props.war) {
+        if (!this.props.position) {
             return null;
         }
         
-        let war = this.props.war;
         let position = this.props.position;
-        let bestAttack = bestScoredPerformedAttackAgainst(this.props.war, this.props.position);
+        let bestAttack = bestPerformedAttack(position);
         let bestPerformedAttackTip = "";    
         let bestPerformedAttackContent = null;
         
@@ -44,8 +43,6 @@ class WarPositionStatus extends React.Component {
             bestPerformedAttackTip = `Best attack: ${bestAttack.destructionPercentage}%`;
             bestPerformedAttackContent = bestAttack.destructionPercentage;
         }
-        
-        
         
         return (
             <OverlayTrigger overlay={this.tooltip(bestPerformedAttackTip)}>
@@ -66,7 +63,6 @@ class WarPositionStatus extends React.Component {
 };
 
 WarPositionStatus.defaultProps = {
-    war: null,
     position: null
 };
 

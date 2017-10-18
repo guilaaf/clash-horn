@@ -86,41 +86,35 @@ export const isDefeat      = (war) => war.result === 4;
  */
 export const elligilePositionsForPushToQueue = function(war, position) {
     const count = performedMemberAttacksCountPerPosition(war);
-    return war.positions.filter( 
-            p => {
-                return (count[p.member.mapPosition]||0)<2 && !position.attackQueue.find( a => a.attacker === p.number ) ;
-            } 
-    );
+    return war.positions.filter( p => {
+        return (count[p.member.mapPosition]||0)<2 && !position.attackQueue.find( a => a.attacker === p.number ) ;
+    });
 };
 
 /**
- * Finds best performed attack at the position
+ * Find best performed attack at the position
  * @param {type} position
  * @returns {Number}
  */
 export const bestPerformedAttack = function(position) {
     if (position.performedAttacks.length===0) {
-        return 0;
+        return { stars: -1, destructionPercentage: 0 };
     } else {
-        let maxStars = position.performedAttacks
-                                    .map( a => a.stars)
-                                    .reduce( (o,n) => Math.max(o, n) );
-
-        return position.performedAttacks
-                                .filter( a => a.stars === maxStars )
-                                .map( a => a.destructionPercentage)
-                                .reduce( (o,n) => Math.max(o, n));
+        return position.performedAttacks.reduce( (x, y) => (x.stars*1000+x.destructionPercentage) > (y.stars*1000+x.destructionPercentage) ? x : y);
     }
 };
 
-
+/**
+ * Return an array indexed by member position containing the number of attacks
+ * performed. If a member has not attacked yet, he won't be in the array.
+ */
 export const performedMemberAttacksCountPerPosition = function(war) {
     let counts = [];
     war.positions.map( 
         pos => pos.performedAttacks.map( attack => attack.attacker) 
     )
     .reduce( (x, y) => x.concat(y) )
-    .forEach( a => counts[a] = (counts[a]||0) + 1 );
+    .forEach( attacker => counts[attacker] = (counts[attacker]||0) + 1 );
     
     return counts;
 };
@@ -140,23 +134,6 @@ export const getFilteredAttackQueue = function(war, position) {
             .filter( queueItem => position.performedAttacks.map(a=> a.attacker).indexOf(queueItem.attacker) < 0 )
             // filter out atackers with 2 performed attacks
             .filter( queueItem => (counts[queueItem.attacker] || 0) < 2 );
-};
-
-
-export const bestScoredPerformedAttackAgainst = function(war, position) {
-    let p =  war.positions
-        // Positions to performed attack list against position
-        .map( 
-            p => p.performedAttacks.filter( a => a.defender===position.number ) 
-        )
-        .reduce( (x, y) => x.concat(y) );
-
-    if (p.length>0) {
-        // reduced to max stars/destruction attack
-        return p.reduce( (x, y) => (x.stars*1000+x.destructionPercentage) > (y.stars*1000+x.destructionPercentage) ? x : y);
-    }
-    
-    return { stars: -1, destructionPercentage: 0 };
 };
 
 export const getWarRemainingTime = function(war, currentTime) {
