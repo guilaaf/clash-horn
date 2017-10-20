@@ -1,0 +1,46 @@
+.wp-log-item {
+    .coc-font;
+    .clickable;
+    height: 28px;
+    width: fit-content;
+    color: #fff;
+    line-height: 31px;
+    margin-right: 3px;
+    margin-left: 3px;
+    margin-bottom: 5px;
+    padding-right: 8px;
+    font-size: 11px;
+    border-radius: 3px;
+    box-shadow: 2px 2px 0px 0 rgba(0, 0, 0, 0.15);
+    
+    .executed {
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-size: 48px;
+        background-position-y: 2px;
+        padding-left: 50px;
+    }
+    
+    .notexecuted {
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-image: url('../../img/queue-head.png');
+        background-size: 24px;
+        background-position-y: 2px;
+        padding-left: 26px;
+    }
+}
+
+.wp-log-item:hover {
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 2px 2px 0px 0 rgba(0, 0, 0, 0.4);
+}
+
+.planned {
+    background-color: @accentColor;
+}
+
+.notplanned {
+    background-color: coral;
+}

@@ -11,11 +11,12 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import {connect} from 'react-redux';
 
-import WarQueue from './WarQueue.jsx'
-import WarPositionStatus from './WarPositionStatus.jsx'
+import WarPositionStatus from './WarPositionStatus.jsx';
+import WarPositionLog from './WarPositionLog.jsx';
+import WarQueue from './WarQueue.jsx';
 
-import { elligilePositionsForPushToQueue } from '../../../war-plan'
-import { pushToAttackQueue } from '../../../flux/actions/clans'
+import { elligilePositionsForPushToQueue } from '../../../war-plan';
+import { pushToAttackQueue } from '../../../flux/actions/clans';
 
 /**
  * WarPosition label
@@ -26,6 +27,7 @@ class WarPosition extends React.Component {
         super(props);
         this.state = {
             attackerPosition: -1,
+            mode: 'queue',
             modal: null
         };
     }
@@ -33,6 +35,11 @@ class WarPosition extends React.Component {
     planAttack() {
         this.closePlanAttackModal();
         this.props.dispatch(pushToAttackQueue(this.props.war.id, this.props.position.number, this.state.attackerPosition));
+    }
+    
+    toggleMode() {
+        let nextMode = this.state.mode === 'queue' ? 'log' : 'queue';
+        this.setState({ mode: nextMode });
     }
     
     showPlanAttackModal() {
@@ -118,11 +125,23 @@ class WarPosition extends React.Component {
                             {position.number}. {position.enemy.name}
                         </h4>
                         
+                        { this.state.mode === 'queue' ?
                         <WarQueue war={war} position={position} />
+                        :
+                        <WarPositionLog war={war} position={position} />
+                        }
                         
                     </Col>
                     
                     <div className="wp-actions">
+                        <Button bsSize="xsmall" onClick={this.toggleMode.bind(this)} disabled={this.isPlanning()}>
+                            { this.state.mode === 'queue' ?
+                            <Glyphicon glyph="arrow-down" />    
+                            :
+                            <Glyphicon glyph="arrow-up" />    
+                            }
+                        </Button>
+                        
                         <Button bsSize="xsmall" onClick={this.showPlanAttackModal.bind(this)} disabled={this.isPlanning()}>
                             {this.isPlanning()?
                             <Glyphicon glyph="refresh" />    

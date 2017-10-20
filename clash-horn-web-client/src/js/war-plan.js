@@ -120,7 +120,7 @@ export const performedMemberAttacksCountPerPosition = function(war) {
 };
 
 /**
- * Return the position attackQueue filtering attackers into position.performedAttacks
+ * Return the position planned attacks queue filtering plans into position.performedAttacks
  * Removes attackers with 2 performedAttacks or attackers already present in position's performedAttacks
  * @param {type} war
  * @param {type} position
@@ -134,6 +134,38 @@ export const getFilteredAttackQueue = function(war, position) {
             .filter( queueItem => position.performedAttacks.map(a=> a.attacker).indexOf(queueItem.attacker) < 0 )
             // filter out atackers with 2 performed attacks
             .filter( queueItem => (counts[queueItem.attacker] || 0) < 2 );
+};
+
+/**
+ * Return the position attack log. Shows the log of all attacks and plans on this position.
+ * @param {type} position
+ * @returns {unresolved}
+ */
+export const getFilteredAttackLog = function(war, position) {
+    let log = position.performedAttacks.map(a => {
+            return {
+                attacker: war.positions[a.attacker-1].member,
+                planned: position.attackQueue.filter(p => p.attacker === a.attacker).reduce((x,y)=> x = y.order < a.order, false),
+                executed: true,
+                stars: a.stars,
+                destructionPercentage: a.destructionPercentage,
+                order: a.order
+            };
+    });
+    position.attackQueue.forEach(p => {
+        if (!log.some(l => l.attacker === p.attacker)) {
+            log.push({
+                attacker: war.positions[p.attacker-1].member,
+                planned: true,
+                executed: false,
+                stars: null,
+                destructionPercentage: 0,
+                order: p.order
+            });
+        }
+    });
+    log.sort((a, b) => a.order - b.order);
+    return log;
 };
 
 export const getWarRemainingTime = function(war, currentTime) {
