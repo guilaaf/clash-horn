@@ -96,7 +96,7 @@ class WarBoard extends React.Component {
                         <div className="pull-right">
                             <OverlayTrigger overlay={tooltip}>
                                 <Button bsStyle="primary" bsSize="xsmall" onClick={this.refreshWar.bind(this)}>
-                                    <Glyphicon glyph="globe"></Glyphicon>
+                                    <Glyphicon glyph="cloud-download"></Glyphicon>
                                 </Button>
                             </OverlayTrigger>
                         </div>

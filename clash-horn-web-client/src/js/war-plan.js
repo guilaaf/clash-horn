@@ -138,6 +138,7 @@ export const getFilteredAttackQueue = function(war, position) {
 
 /**
  * Return the position attack log. Shows the log of all attacks and plans on this position.
+ * @param {type} war
  * @param {type} position
  * @returns {unresolved}
  */

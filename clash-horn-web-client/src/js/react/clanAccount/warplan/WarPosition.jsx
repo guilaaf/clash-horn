@@ -136,12 +136,12 @@ class WarPosition extends React.Component {
                     <div className="wp-actions">
                         <Button bsSize="xsmall" onClick={this.toggleMode.bind(this)} disabled={this.isPlanning()}>
                             { this.state.mode === 'queue' ?
-                            <Glyphicon glyph="arrow-down" />    
+                            <Glyphicon glyph="zoom-in" />    
                             :
-                            <Glyphicon glyph="arrow-up" />    
+                            <Glyphicon glyph="zoom-out" />    
                             }
                         </Button>
-                        
+                        {' '}
                         <Button bsSize="xsmall" onClick={this.showPlanAttackModal.bind(this)} disabled={this.isPlanning()}>
                             {this.isPlanning()?
                             <Glyphicon glyph="refresh" />    
